@@ -3,30 +3,40 @@
 namespace App\Controllers;
 
 use App\Services\Database;
+use App\Services\UserSession;
 use DI\Container;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Session;
 use System\Abstracts\AbstractController;
 use System\Core\ViewModule\TwigModule;
 
 class IndexController extends AbstractController
 {
-    protected $response;
-
     protected $container;
 
-    public function __construct(Container $container, Response $response, TwigModule $twig)
+    protected $session;
+    public function __construct(Container $container, UserSession $session)
     {
         $this->container = $container;
-        $this->response = $response;
+        $this->session = $session;
     }
 
     public function indexAction()
     {
-        $this->viewModel('index.html', ['name'=> 'banan']);
+        $params = [];
+        if($this->session->get('logged_in'))
+        {
+            $userStatus = true;
+            $params['logged_in'] = $userStatus;
+        }
+
+        $params['name'] = "Bogdan";
+
+        var_dump($_SESSION);
+        $this->viewModel('index.html', $params);
     }
 
     public function postAction()
     {
-        
+
     }
 }
