@@ -10,6 +10,8 @@ abstract class AbstractController
 {
     protected $container;
 
+    protected $request;
+
     public function __construct(Container $container)
     {
         $this->container = $container;
@@ -27,5 +29,8 @@ abstract class AbstractController
         $this->container = $container;
     }
 
-
+    public function getRequest()
+    {
+        return Request::createFromGlobals();
+    }
 }

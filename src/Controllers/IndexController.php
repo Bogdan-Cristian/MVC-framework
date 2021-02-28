@@ -7,17 +7,26 @@ use App\Services\UserSession;
 use DI\Container;
 use Symfony\Component\HttpFoundation\Session\Session;
 use System\Abstracts\AbstractController;
+use System\Core\Factories\DatabaseFactory;
 use System\Core\ViewModule\TwigModule;
+use Entity\Product;
+use App\Services\Request;
+use Symfony\Component\HttpFoundation\Request as HttpFoundationRequest;
 
 class IndexController extends AbstractController
 {
     protected $container;
 
     protected $session;
-    public function __construct(Container $container, UserSession $session)
+
+    protected $db;
+
+    public function __construct(Container $container, UserSession $session, DatabaseFactory $dbFactory)
     {
+        
         $this->container = $container;
         $this->session = $session;
+        $this->db = $dbFactory;
     }
 
     public function indexAction()
@@ -31,7 +40,6 @@ class IndexController extends AbstractController
 
         $params['name'] = "Bogdan";
 
-        var_dump($_SESSION);
         $this->viewModel('index.html', $params);
     }
 
